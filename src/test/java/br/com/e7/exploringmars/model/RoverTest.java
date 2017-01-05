@@ -12,7 +12,7 @@ import br.com.e7.exploringmars.model.Rover.CoordinateValidation;
 import br.com.e7.exploringmars.model.Rover.InvalidCoordinateException;
 
 public class RoverTest {
-	private static final CoordinateValidation v = (x,y) -> {if(!(x >= 0 && x <= 5 && y >= 0 && y <= 5)) throw new InvalidCoordinateException(String.format("cordinates: (%d, %d) are invalid", x, y));};
+	private static final CoordinateValidation v = Rover.createSimpleCordinateValidation(5, 5);
 	
 	@Test
 	public void testRoverExample1() {

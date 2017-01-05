@@ -79,4 +79,8 @@ public class Rover {
 		}
 		
 	}
+	
+	public static CoordinateValidation createSimpleCordinateValidation(final int w, final int h) {
+		return (x, y) -> {if(!(x >= 0 && x <= w && y >= 0 && y <= h)) throw new InvalidCoordinateException(String.format("cordinates: (%d, %d) are invalid", x, y));};
+	}
 }
