@@ -3,6 +3,7 @@ package br.com.e7.exploringmars.util.parser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
+import java.nio.charset.Charset;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,6 +13,7 @@ import br.com.e7.exploringmars.model.Mission;
 import br.com.e7.exploringmars.model.Mission.RoverMission;
 import br.com.e7.exploringmars.model.Rover;
 import br.com.e7.exploringmars.model.Rover.CoordinateValidation;
+import static br.com.e7.exploringmars.util.ConfigProperties.DEFAULT_ENCODING;
 
 public class TextParser implements MissionParser {
 
@@ -36,7 +38,7 @@ public class TextParser implements MissionParser {
 	
 	@Override
 	public byte[] parse(Mission mission) {
-		return mission.rovers().stream().map(r -> r.rover().x() + " " + r.rover().y() + " " + r.rover().direction().value()).collect(Collectors.joining("\n")).getBytes();
+		return mission.rovers().stream().map(r -> r.rover().x() + " " + r.rover().y() + " " + r.rover().direction().value()).collect(Collectors.joining("\n")).getBytes(Charset.forName(DEFAULT_ENCODING.value()));
 	}
 	
 	private int[] parseSurfaceValues(final String line) {
