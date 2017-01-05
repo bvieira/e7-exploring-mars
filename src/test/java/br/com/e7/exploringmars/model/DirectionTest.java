@@ -1,11 +1,12 @@
 package br.com.e7.exploringmars.model;
 
+import static br.com.e7.exploringmars.model.Direction.EAST;
+import static br.com.e7.exploringmars.model.Direction.NORTH;
+import static br.com.e7.exploringmars.model.Direction.WEST;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static br.com.e7.exploringmars.model.Direction.*;
-import org.junit.Test;
 
-import br.com.e7.exploringmars.model.Rover.InvalidCoordinateException;
+import org.junit.Test;
 
 public class DirectionTest {
 	
