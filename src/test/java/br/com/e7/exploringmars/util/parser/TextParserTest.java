@@ -6,7 +6,7 @@ import static br.com.e7.exploringmars.model.Action.RIGHT;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -26,7 +26,7 @@ public class TextParserTest {
 		final RoverMission expectedRover2 = new RoverMission(new Rover(3, 3, Direction.EAST, Rover.createSimpleCordinateValidation(5, 5)),
 				Arrays.asList(MOVE, MOVE, RIGHT, MOVE, MOVE, RIGHT, MOVE, RIGHT, RIGHT, MOVE));
 		
-		final Mission result = new TextParser().parse("test", input);
+		final Mission result = new TextParser().parseMission("test", input);
 		
 		assertThat(result.name()).isEqualTo("test");
 		
@@ -39,11 +39,10 @@ public class TextParserTest {
 	
 	@Test
 	public void testOutputExample() {
-		final Mission mission = new Mission("mission1");
-		mission.addRoverMission(new RoverMission(new Rover(1, 3, Direction.NORTH, Rover.createSimpleCordinateValidation(5, 5)), Collections.emptyList()));
-		mission.addRoverMission(new RoverMission(new Rover(5, 1, Direction.EAST, Rover.createSimpleCordinateValidation(5, 5)), Collections.emptyList()));
+		final List<Rover> result = Arrays.asList(new Rover(1, 3, Direction.NORTH, Rover.createSimpleCordinateValidation(5, 5)),
+				new Rover(5, 1, Direction.EAST, Rover.createSimpleCordinateValidation(5, 5)));
 		
-		final String content = new String(new TextParser().parse(mission));
+		final String content = new String(new TextParser().parseMissionResult(result));
 		assertThat(content).isEqualTo("1 3 N\n5 1 E");
 	}
 	
