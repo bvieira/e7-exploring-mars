@@ -1,7 +1,6 @@
 package br.com.e7.exploringmars.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Mission {
