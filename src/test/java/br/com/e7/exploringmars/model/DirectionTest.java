@@ -1,8 +1,11 @@
 package br.com.e7.exploringmars.model;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static br.com.e7.exploringmars.model.Direction.*;
 import org.junit.Test;
+
+import br.com.e7.exploringmars.model.Rover.InvalidCoordinateException;
 
 public class DirectionTest {
 	
@@ -26,9 +29,9 @@ public class DirectionTest {
 		assertThat(Direction.get('w')).isEqualTo(WEST);
 	}
 	
-	@Test(expected=IllegalArgumentException.class)
+	@Test
 	public void testGetDirectionInvalid() {
-		Direction.get('A');
+		assertThatThrownBy(() -> { Direction.get('A'); }).isInstanceOf(IllegalArgumentException.class).hasMessage("invalid direction");
 	}
 
 }
