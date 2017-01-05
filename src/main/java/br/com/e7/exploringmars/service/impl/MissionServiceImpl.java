@@ -3,11 +3,14 @@ package br.com.e7.exploringmars.service.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.inject.Singleton;
+
 import br.com.e7.exploringmars.model.Mission;
 import br.com.e7.exploringmars.model.Mission.RoverMission;
 import br.com.e7.exploringmars.model.Rover;
 import br.com.e7.exploringmars.service.MissionService;
 
+@Singleton
 public class MissionServiceImpl implements MissionService {
 
 	@Override

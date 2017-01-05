@@ -6,8 +6,30 @@
 	<artifactId>exploring-mars</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
+	<repositories>
+		<repository>
+			<id>mavenCentral</id>
+			<name>mavenCentral</name>
+			<url>http://rcentral.maven.org/maven2</url>
+		</repository>
+
+		<repository>
+			<id>mavenCentral2</id>
+			<name>mavenCentral2</name>
+			<url>http://central.maven.org/maven2</url>
+		</repository>
+	</repositories>
+
 
 	<dependencies>
+
+		<!-- rest and dependency injection -->
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-guice</artifactId>
+			<version>3.0.19.Final</version>
+		</dependency>
+
 		<!-- unit tests -->
 		<dependency>
 			<groupId>org.assertj</groupId>
