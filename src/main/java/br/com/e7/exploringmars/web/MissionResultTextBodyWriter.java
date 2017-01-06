@@ -26,7 +26,6 @@ public class MissionResultTextBodyWriter implements MessageBodyWriter<MissionRes
 
 	@Override
 	public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
-		System.out.println(type);
 		return type == MissionResult.class;
 	}
 
