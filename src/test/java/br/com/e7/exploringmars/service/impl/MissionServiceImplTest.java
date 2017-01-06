@@ -26,7 +26,7 @@ public class MissionServiceImplTest {
 		mission.addRoverMission(new RoverMission(new Rover(3, 3, EAST, Rover.createSimpleCordinateValidation(5, 5)),
 				Arrays.asList(MOVE, MOVE, RIGHT, MOVE, MOVE, RIGHT, MOVE, RIGHT, RIGHT, MOVE)));
 		
-		final List<Rover> result = new MissionServiceImpl().process(mission);
+		final List<Rover> result = new MissionServiceImpl().process(mission).rovers();
 		assertThat(result.get(0)).isEqualToComparingFieldByFieldRecursively(new Rover(1, 3, NORTH, Rover.createSimpleCordinateValidation(5, 5)));
 		assertThat(result.get(1)).isEqualToComparingFieldByFieldRecursively(new Rover(5, 1, EAST, Rover.createSimpleCordinateValidation(5, 5)));
 	}

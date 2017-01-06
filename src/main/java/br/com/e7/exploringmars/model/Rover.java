@@ -5,6 +5,9 @@ import static br.com.e7.exploringmars.model.Direction.NORTH;
 import static br.com.e7.exploringmars.model.Direction.SOUTH;
 import static br.com.e7.exploringmars.model.Direction.WEST;
 
+import br.com.e7.exploringmars.exception.InvalidCoordinateException;
+import br.com.e7.exploringmars.exception.InvalidDirectionException;
+
 public class Rover {
 	public static interface CoordinateValidation{ void validate(int x, int y) throws InvalidCoordinateException; }
 	
@@ -68,16 +71,7 @@ public class Rover {
 		for(int i = 0; i < directions.length; i++)
 			if(directions[i].equals(d))
 				return i;
-		throw new IllegalArgumentException("invalid direction");
-	}
-	
-	public static class InvalidCoordinateException extends RuntimeException{ 
-		private static final long serialVersionUID = -708453811796045932L; 
-		
-		public InvalidCoordinateException(final String message) {
-			super(message);
-		}
-		
+		throw new InvalidDirectionException("invalid direction");
 	}
 	
 	public static CoordinateValidation createSimpleCordinateValidation(final int w, final int h) {

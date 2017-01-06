@@ -1,14 +1,24 @@
-package br.com.e7.exploringmars.util.parser;
-
-import static br.com.e7.exploringmars.util.ConfigProperties.DEFAULT_ENCODING;
+package br.com.e7.exploringmars.web;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.StringReader;
-import java.nio.charset.Charset;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.ws.rs.Consumes;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.ext.MessageBodyReader;
+import javax.ws.rs.ext.Provider;
+
+import br.com.e7.exploringmars.exception.ParserException;
 import br.com.e7.exploringmars.model.Action;
 import br.com.e7.exploringmars.model.Direction;
 import br.com.e7.exploringmars.model.Mission;
@@ -16,12 +26,26 @@ import br.com.e7.exploringmars.model.Mission.RoverMission;
 import br.com.e7.exploringmars.model.Rover;
 import br.com.e7.exploringmars.model.Rover.CoordinateValidation;
 
-public class TextParser implements MissionParser {
+@Provider
+@Consumes(MediaType.TEXT_PLAIN)
+public class MissionTextBodyReader implements MessageBodyReader<Mission> {
+	
+	@Context
+    private UriInfo uriInfo;
 
 	@Override
-	public Mission parseMission(String name, String content) {
+	public boolean isReadable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
+		return type == Mission.class;
+	}
+
+	@Override
+	public Mission readFrom(Class<Mission> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, String> httpHeaders, InputStream entityStream) throws IOException, WebApplicationException {
+		return parseMission(uriInfo.getPathParameters().getFirst("name"), entityStream);
+	}
+	
+	Mission parseMission(final String name, final InputStream entityStream) {
 		final Mission mission = new Mission(name);
-		try(BufferedReader bufReader = new BufferedReader(new StringReader(content))) {
+		try(BufferedReader bufReader = new BufferedReader(new InputStreamReader(entityStream))) {
 			final int[] surfaceValues = parseSurfaceValues(bufReader.readLine());
 			mission.setSurfaceWidth(surfaceValues[0]);
 			mission.setSurfaceHeight(surfaceValues[1]);
@@ -33,13 +57,7 @@ public class TextParser implements MissionParser {
 		} catch (IOException e) {
 			throw new ParserException("could not parse mission text");
 		}
-		
 		return mission;
-	}
-	
-	@Override
-	public byte[] parseMissionResult(List<Rover> rovers) {
-		return rovers.stream().map(r -> r.x() + " " + r.y() + " " + r.direction().value()).collect(Collectors.joining("\n")).getBytes(Charset.forName(DEFAULT_ENCODING.value()));
 	}
 	
 	private int[] parseSurfaceValues(final String line) {
@@ -79,4 +97,6 @@ public class TextParser implements MissionParser {
 		}
 		
 	}
+
+	
 }

@@ -40,6 +40,11 @@ public class Mission {
 	public void setSurfaceWidth(final int surfaceWidth) {
 		this.surfaceWidth = surfaceWidth;
 	}
+	
+	@Override
+	public String toString() {
+		return new StringBuilder("Mission [name=").append(name).append(", rovers=").append(rovers).append(", surfaceWidth=").append(surfaceWidth).append(", surfaceHeight=").append(surfaceHeight).append("]").toString();
+	}
 
 	public static class RoverMission {
 		private final Rover rover;
@@ -57,6 +62,12 @@ public class Mission {
 		public List<Action> actions() {
 			return actions;
 		}
+
+		@Override
+		public String toString() {
+			return new StringBuilder("RoverMission [rover=").append(rover).append(", actions=").append(actions).append("]").toString();
+		}
+		
 		
 	}
 }

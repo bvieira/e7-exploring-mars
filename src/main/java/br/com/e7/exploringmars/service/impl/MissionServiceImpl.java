@@ -1,12 +1,12 @@
 package br.com.e7.exploringmars.service.impl;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.inject.Singleton;
 
 import br.com.e7.exploringmars.model.Mission;
 import br.com.e7.exploringmars.model.Mission.RoverMission;
+import br.com.e7.exploringmars.model.MissionResult;
 import br.com.e7.exploringmars.model.Rover;
 import br.com.e7.exploringmars.service.MissionService;
 
@@ -14,8 +14,8 @@ import br.com.e7.exploringmars.service.MissionService;
 public class MissionServiceImpl implements MissionService {
 
 	@Override
-	public List<Rover> process(final Mission mission) {
-		return mission.rovers().stream().map(m -> processRoverMission(m)).collect(Collectors.toList());
+	public MissionResult process(final Mission mission) {
+		return new MissionResult(mission.rovers().stream().map(m -> processRoverMission(m)).collect(Collectors.toList()));
 	}
 	
 	private Rover processRoverMission(final RoverMission roverMission) {

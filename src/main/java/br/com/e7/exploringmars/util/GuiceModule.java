@@ -7,6 +7,8 @@ import com.google.inject.Module;
 import br.com.e7.exploringmars.service.MissionService;
 import br.com.e7.exploringmars.service.impl.MissionServiceImpl;
 import br.com.e7.exploringmars.web.ExploringMissionREST;
+import br.com.e7.exploringmars.web.MissionResultTextBodyWriter;
+import br.com.e7.exploringmars.web.MissionTextBodyReader;
 
 public class GuiceModule implements Module {
 
@@ -22,6 +24,9 @@ public class GuiceModule implements Module {
 		@Override
 		protected void configure() {
 			bind(MissionService.class).to(MissionServiceImpl.class);
+			
+			bind(MissionTextBodyReader.class);
+			bind(MissionResultTextBodyWriter.class);
 		}
 		
 	}

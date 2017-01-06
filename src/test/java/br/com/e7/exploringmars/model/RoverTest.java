@@ -9,8 +9,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.Test;
 
+import br.com.e7.exploringmars.exception.InvalidCoordinateException;
 import br.com.e7.exploringmars.model.Rover.CoordinateValidation;
-import br.com.e7.exploringmars.model.Rover.InvalidCoordinateException;
 
 public class RoverTest {
 	private static final CoordinateValidation v = Rover.createSimpleCordinateValidation(5, 5);

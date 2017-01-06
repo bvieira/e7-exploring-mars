@@ -1,10 +1,8 @@
 package br.com.e7.exploringmars.service;
 
-import java.util.List;
-
 import br.com.e7.exploringmars.model.Mission;
-import br.com.e7.exploringmars.model.Rover;
+import br.com.e7.exploringmars.model.MissionResult;
 
 public interface MissionService {
-	List<Rover> process(Mission mission);
+	MissionResult process(Mission mission);
 }

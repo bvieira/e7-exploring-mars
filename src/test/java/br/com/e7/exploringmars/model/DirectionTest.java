@@ -8,6 +8,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.Test;
 
+import br.com.e7.exploringmars.exception.InvalidDirectionException;
+
 public class DirectionTest {
 	
 	@Test
@@ -32,7 +34,7 @@ public class DirectionTest {
 	
 	@Test
 	public void testGetDirectionInvalid() {
-		assertThatThrownBy(() -> { Direction.get('A'); }).isInstanceOf(IllegalArgumentException.class).hasMessage("invalid direction");
+		assertThatThrownBy(() -> { Direction.get('A'); }).isInstanceOf(InvalidDirectionException.class).hasMessage("invalid direction");
 	}
 
 }
