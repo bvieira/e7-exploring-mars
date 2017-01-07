@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration scan="true">
+
+	<!-- Appenders -->
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+	    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+	      <level>INFO</level>
+	    </filter>
+    <encoder><pattern>%d [%level] [%thread] [%logger{0}] %msg%n</pattern></encoder>
+	</appender>
+		
+	<appender name="ASYNC-CONSOLE" class="ch.qos.logback.classic.AsyncAppender" queueSize="10000" discardingThreshold="10">
+		<appender-ref ref="CONSOLE" />
+	</appender>
+
+	<root level="info">
+		<appender-ref ref="CONSOLE" />
+	</root>
+
+</configuration>

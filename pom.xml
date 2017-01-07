@@ -44,6 +44,31 @@
 			<version>6.3.0</version>
 		</dependency>
 
+		<!-- log -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.22</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>log4j-over-slf4j</artifactId>
+			<version>1.7.22</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.1.8</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+			<version>1.1.8</version>
+		</dependency>
+
 		<!-- unit tests -->
 		<dependency>
 			<groupId>org.assertj</groupId>
@@ -74,6 +99,24 @@
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
 				<version>9.4.0.v20161208</version>
+				<configuration>
+					<connectors>
+						<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+							<port>8080</port>
+							<host>127.0.0.1</host>
+							<maxIdleTime>30000</maxIdleTime>
+						</connector>
+					</connectors>
+					<webApp>
+						<contextPath>/</contextPath>
+					</webApp>
+					<systemProperties>
+						<systemProperty>
+							<name>logback.configurationFile</name>
+							<value>${basedir}/config/logback.xml</value>
+						</systemProperty>
+					</systemProperties>
+				</configuration>
 			</plugin>
 
 			<plugin>
