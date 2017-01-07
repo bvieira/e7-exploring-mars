@@ -27,4 +27,14 @@
         <servlet-name>Resteasy</servlet-name>
         <url-pattern>/*</url-pattern>
     </servlet-mapping>
+
+	<filter>
+		<filter-name>servletlog</filter-name>
+		<filter-class>br.com.e7.exploringmars.web.LogFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>servletlog</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>    
+
 </web-app>
