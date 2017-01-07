@@ -4,6 +4,9 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Binder;
 import com.google.inject.Module;
 
+import br.com.e7.exploringmars.repository.MissionRepository;
+import br.com.e7.exploringmars.repository.impl.SolrMissionRepository;
+import br.com.e7.exploringmars.repository.impl.SolrRepository;
 import br.com.e7.exploringmars.service.MissionService;
 import br.com.e7.exploringmars.service.impl.MissionServiceImpl;
 import br.com.e7.exploringmars.web.ApplicationExceptionMapper;
@@ -32,6 +35,9 @@ public class GuiceModule implements Module {
 
 		@Override
 		protected void configure() {
+			bind(SolrRepository.class);
+			bind(MissionRepository.class).to(SolrMissionRepository.class);
+			
 			bind(MissionService.class).to(MissionServiceImpl.class);
 		}
 		

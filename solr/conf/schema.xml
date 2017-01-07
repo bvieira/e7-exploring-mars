@@ -2,7 +2,12 @@
 <schema name="exploring-mars-schema" version="1.6">
     <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false" />
     <field name="name" type="text_general" indexed="true" stored="true" />
-    <field name="size" type="int" indexed="true" stored="true" />
+    <field name="created" type="tdate" indexed="true" stored="true" />
+    <field name="width" type="int" indexed="true" stored="true" />
+    <field name="height" type="int" indexed="true" stored="true" />
+    <field name="qty_rover" type="int" indexed="true" stored="true" />
+    <field name="start_points" type="strings" indexed="true" stored="true" />
+    <field name="end_points" type="strings" indexed="true" stored="true" />
     
     <field name="_version_" type="long" indexed="false" stored="false"/>
 

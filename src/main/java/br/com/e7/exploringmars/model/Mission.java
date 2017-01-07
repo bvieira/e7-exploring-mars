@@ -1,20 +1,27 @@
 package br.com.e7.exploringmars.model;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Mission {
 	private final String name;
+	private final long created;
 	private final List<RoverMission> rovers;
 	private int surfaceWidth, surfaceHeight;
 	
 	public Mission(final String name) {
 		this.name = name;
+		this.created = Instant.now().toEpochMilli();
 		this.rovers = new ArrayList<>();
 	}
 	
 	public String name() {
 		return name;
+	}
+	
+	public long created() {
+		return created;
 	}
 	
 	public List<RoverMission> rovers() {
