@@ -6,11 +6,19 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import br.com.e7.exploringmars.exception.ApplicationException;
 import br.com.e7.exploringmars.model.Error;
 
 @Provider
-public class ApplicationExceptionMapper implements ExceptionMapper<ApplicationException>{
+public class ApplicationExceptionMapper implements ExceptionMapper<ApplicationException> {
+	private final Logger logger;
+	
+	public ApplicationExceptionMapper() {
+		logger = LoggerFactory.getLogger(getClass());
+	}
 
 	@Override
 	public Response toResponse(ApplicationException exception) {
@@ -19,6 +27,7 @@ public class ApplicationExceptionMapper implements ExceptionMapper<ApplicationEx
 			return response(Response.Status.BAD_REQUEST, exception.getMessage());
 		case REPOSITORY_INDEX:
 		case REPOSITORY_SEARCH:
+			logger.error("application error, exception:[{}] message:[{}]", exception.getClass().getName(), exception.getMessage());
 			return response(Response.Status.INTERNAL_SERVER_ERROR, exception.getMessage());
 		default:
 			return response(Response.Status.INTERNAL_SERVER_ERROR, exception.getMessage());
