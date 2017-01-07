@@ -1,5 +1,6 @@
 package br.com.e7.exploringmars.service.impl;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
@@ -10,6 +11,7 @@ import br.com.e7.exploringmars.model.Mission.RoverMission;
 import br.com.e7.exploringmars.model.MissionResult;
 import br.com.e7.exploringmars.model.Rover;
 import br.com.e7.exploringmars.repository.MissionRepository;
+import br.com.e7.exploringmars.repository.MissionRepository.MissionRepositoryInfo;
 import br.com.e7.exploringmars.service.MissionService;
 
 @Singleton
@@ -27,6 +29,11 @@ public class MissionServiceImpl implements MissionService {
 		final MissionResult result = new MissionResult(mission.rovers().stream().map(m -> processRoverMission(m)).collect(Collectors.toList()));
 		repository.add(mission, result);
 		return result;
+	}
+	
+	@Override
+	public List<MissionRepositoryInfo> search(final String query, final String sort) {
+		return repository.search(query, sort);
 	}
 	
 	private Rover processRoverMission(final RoverMission roverMission) {

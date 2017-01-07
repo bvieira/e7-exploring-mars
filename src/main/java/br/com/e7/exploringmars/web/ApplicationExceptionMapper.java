@@ -17,6 +17,9 @@ public class ApplicationExceptionMapper implements ExceptionMapper<ApplicationEx
 		switch (exception.getType()) {
 		case VALIDATION:
 			return response(Response.Status.BAD_REQUEST, exception.getMessage());
+		case REPOSITORY_INDEX:
+		case REPOSITORY_SEARCH:
+			return response(Response.Status.INTERNAL_SERVER_ERROR, exception.getMessage());
 		default:
 			return response(Response.Status.INTERNAL_SERVER_ERROR, exception.getMessage());
 		}

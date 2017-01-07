@@ -8,9 +8,13 @@ public abstract class ApplicationException extends RuntimeException {
 		super(msg);
 	}
 	
+	public ApplicationException(final String msg, final Throwable cause) {
+		super(msg, cause);
+	}
+	
 	public abstract ErrorType getType();
 	
 	public static enum ErrorType {
-		VALIDATION;
+		VALIDATION, REPOSITORY_INDEX, REPOSITORY_SEARCH;
 	}
 }

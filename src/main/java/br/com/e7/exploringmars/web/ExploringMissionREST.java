@@ -2,9 +2,11 @@ package br.com.e7.exploringmars.web;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -23,5 +25,12 @@ public class ExploringMissionREST {
     @Produces({ MediaType.TEXT_PLAIN })
     public Response postMission(final Mission mission) {		
         return Response.status(Response.Status.OK).entity(missionService.process(mission)).build();
+    }
+	
+	@GET
+    @Path("/")
+    @Produces({ MediaType.APPLICATION_JSON })
+    public Response searchMissions(@QueryParam("q") final String query, @QueryParam("sort") final String sort) {		
+        return Response.status(Response.Status.OK).entity(missionService.search(query, sort)).build();
     }
 }

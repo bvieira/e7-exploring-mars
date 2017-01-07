@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.apache.solr.client.solrj.beans.Field;
+import org.apache.solr.client.solrj.response.QueryResponse;
 
 import br.com.e7.exploringmars.model.Mission;
 import br.com.e7.exploringmars.model.MissionResult;
@@ -25,7 +25,7 @@ public class SolrMissionRepository implements MissionRepository {
 	
 	@Override
 	public void add(final Mission mission, final MissionResult result) {
-		solr.add(new SolrMission(mission.name(), mission.name(), new Date(mission.created()), 
+		solr.add(new MissionRepositoryInfo(mission.name(), mission.name(), new Date(mission.created()), 
 				mission.surfaceWidth(), mission.surfaceHeight(), 
 				mission.rovers().size(),
 				mission.rovers().stream().map(r -> r.rover().initialX() + "," + r.rover().initialY()).collect(Collectors.toList()),
@@ -33,42 +33,10 @@ public class SolrMissionRepository implements MissionRepository {
 		));
 	}
 	
-	private static class SolrMission {
-		
-		@Field("id")
-		String id;
-		
-		@Field("name")
-		String name;
-		
-		@Field("created")
-		Date created;
-		
-		@Field("width")
-		int width;
-		
-		@Field("height")
-		int height;
-		
-		@Field("qty_rover")
-		int qtyRover;
-		
-		@Field("start_points")
-		List<String> startPoints;
-		
-		@Field("end_points")
-		List<String> endPoints;
-		
-		public SolrMission(final String id, final String name, final Date created, final int width, final int height, final int qtyRover, final List<String> startPoints, final List<String> endPoints) {
-			this.id = id;
-			this.name = name;
-			this.created = created;
-			this.width = width;
-			this.height = height;
-			this.qtyRover = qtyRover;
-			this.startPoints = startPoints;
-			this.endPoints = endPoints;
-		}
+	@Override
+	public List<MissionRepositoryInfo> search(final String query, final String sort) {
+		final QueryResponse response = solr.query(query, sort);
+		return response.getBeans(MissionRepositoryInfo.class);
 	}
 	
 }
