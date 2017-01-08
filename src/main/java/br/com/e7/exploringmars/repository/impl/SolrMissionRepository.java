@@ -24,7 +24,7 @@ public class SolrMissionRepository implements MissionRepository {
 	}
 	
 	@Override
-	public void add(final Mission mission, final MissionResult result) {
+	public void add(final Mission mission) {
 		solr.add(new MissionRepositoryInfo(mission.name(), mission.name(), new Date(mission.created()), 
 				mission.surfaceWidth(), mission.surfaceHeight(), 
 				mission.rovers().size(),

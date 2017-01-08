@@ -27,7 +27,7 @@ public class MissionServiceImpl implements MissionService {
 	@Override
 	public MissionResult process(final Mission mission) {
 		final MissionResult result = new MissionResult(mission.rovers().stream().map(m -> processRoverMission(m)).collect(Collectors.toList()));
-		repository.add(mission, result);
+		repository.add(mission);
 		return result;
 	}
 	

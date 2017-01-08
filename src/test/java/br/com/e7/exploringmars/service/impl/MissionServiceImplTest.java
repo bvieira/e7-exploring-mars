@@ -11,6 +11,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -20,11 +21,12 @@ import br.com.e7.exploringmars.model.MissionResult;
 import br.com.e7.exploringmars.model.Rover;
 import br.com.e7.exploringmars.model.Rover.RoverPosition;
 import br.com.e7.exploringmars.repository.MissionRepository;
+import br.com.e7.exploringmars.repository.MissionRepository.MissionRepositoryInfo;
 
 public class MissionServiceImplTest {
 	
 	@Test
-	public void testMissionServiceExample1() {
+	public void testProcessExample1() {
 		final Mission mission = new Mission("mission1");
 		mission.addRoverMission(new RoverMission(new Rover(1, 2, NORTH, Rover.createSimpleCordinateValidation(5, 5)),
 				Arrays.asList(LEFT, MOVE, LEFT, MOVE, LEFT, MOVE, LEFT, MOVE, MOVE)));
@@ -35,7 +37,14 @@ public class MissionServiceImplTest {
 		final MissionResult result = new MissionServiceImpl(respository).process(mission);
 		assertThat(result.rovers().get(0)).isEqualToComparingFieldByFieldRecursively(new Rover(new RoverPosition(1, 2, 0), new RoverPosition(1, 3, 0), Rover.createSimpleCordinateValidation(5, 5)));
 		assertThat(result.rovers().get(1)).isEqualToComparingFieldByFieldRecursively(new Rover(new RoverPosition(3, 3, 1), new RoverPosition(5, 1, 1), Rover.createSimpleCordinateValidation(5, 5)));
-		verify(respository, times(1)).add(mission, result);
+		verify(respository, times(1)).add(mission);
+	}
+	
+	@Test
+	public void testSearch() {
+		final MissionRepository respository = mock(MissionRepository.class);
+		new MissionServiceImpl(respository).search("*:*", "id:asc");
+		verify(respository, times(1)).search("*:*", "id:asc");
 	}
 
 }

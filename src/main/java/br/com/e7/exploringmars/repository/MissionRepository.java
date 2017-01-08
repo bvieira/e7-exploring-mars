@@ -8,10 +8,9 @@ import org.apache.solr.client.solrj.beans.Field;
 import com.google.gson.annotations.SerializedName;
 
 import br.com.e7.exploringmars.model.Mission;
-import br.com.e7.exploringmars.model.MissionResult;
 
 public interface MissionRepository {
-	void add(Mission mission, MissionResult result);
+	void add(Mission mission);
 	
 	List<MissionRepositoryInfo> search(String query, String sort);
 

@@ -23,7 +23,11 @@ public class SolrRepository {
 	private final SolrClient client;
 	
 	public SolrRepository() {
-		client = new HttpSolrClient.Builder().withBaseSolrUrl(SOLR_URL.value()).build();
+		this(new HttpSolrClient.Builder().withBaseSolrUrl(SOLR_URL.value()).build());
+	}
+	
+	SolrRepository(final SolrClient client) {
+		this.client = client;
 	}
 	
 	public void add(final Object document) {
