@@ -39,6 +39,7 @@ $ docker-compose logs -f
 
 # API
 - [Process mission](#process-mission)
+- [Search missions](#search-missions)
 
 ## Error handling
 if something went wrong on request, the application should return http code different from 2xx and on body the [Error response](#error-response)
@@ -63,6 +64,7 @@ process a mission and calculates the final point for each rover
 |-------------------|-----------------------|-------|
 | 200             | success  | [Mission Result Response Text](#mission-result-response-text) |
 | 400             | invalid request  | [Error response](#error-response) |
+| 500             | error accessing solr  | [Error response](#error-response) |
 
 ### Example:
 ```sh
