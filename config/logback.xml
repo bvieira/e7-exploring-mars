@@ -12,6 +12,9 @@
 	<appender name="ASYNC-CONSOLE" class="ch.qos.logback.classic.AsyncAppender" queueSize="10000" discardingThreshold="10">
 		<appender-ref ref="CONSOLE" />
 	</appender>
+	
+	<logger name="org.jboss" level="info" />
+	<logger name="org.jboss.resteasy" level="warn" />
 
 	<root level="info">
 		<appender-ref ref="CONSOLE" />
