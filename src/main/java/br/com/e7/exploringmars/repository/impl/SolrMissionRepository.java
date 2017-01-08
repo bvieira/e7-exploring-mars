@@ -10,7 +10,6 @@ import javax.inject.Singleton;
 import org.apache.solr.client.solrj.response.QueryResponse;
 
 import br.com.e7.exploringmars.model.Mission;
-import br.com.e7.exploringmars.model.MissionResult;
 import br.com.e7.exploringmars.repository.MissionRepository;
 
 @Singleton

@@ -11,7 +11,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
-import java.util.List;
 
 import org.junit.Test;
 
@@ -21,7 +20,6 @@ import br.com.e7.exploringmars.model.MissionResult;
 import br.com.e7.exploringmars.model.Rover;
 import br.com.e7.exploringmars.model.Rover.RoverPosition;
 import br.com.e7.exploringmars.repository.MissionRepository;
-import br.com.e7.exploringmars.repository.MissionRepository.MissionRepositoryInfo;
 
 public class MissionServiceImplTest {
 	
