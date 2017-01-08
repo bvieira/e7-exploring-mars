@@ -28,10 +28,10 @@ public class SolrMissionRepositoryTest {
 	
 	@Test
 	public void testAdd() {
-		final Mission mission = new Mission("mission1");
-		mission.addRoverMission(new RoverMission(new Rover(new RoverPosition(1, 2, 0), new RoverPosition(1, 3, 0), Rover.createSimpleCordinateValidation(5, 5)),
+		final Mission mission = new Mission("mission1", 5, 5);
+		mission.addRoverMission(new RoverMission(new Rover(new RoverPosition(1, 2, 0), new RoverPosition(1, 3, 0)),
 				Arrays.asList(LEFT, MOVE, LEFT, MOVE, LEFT, MOVE, LEFT, MOVE, MOVE)));
-		mission.addRoverMission(new RoverMission(new Rover(new RoverPosition(3, 3, 1), new RoverPosition(5, 1, 1), Rover.createSimpleCordinateValidation(5, 5)),
+		mission.addRoverMission(new RoverMission(new Rover(new RoverPosition(3, 3, 1), new RoverPosition(5, 1, 1)),
 				Arrays.asList(MOVE, MOVE, RIGHT, MOVE, MOVE, RIGHT, MOVE, RIGHT, RIGHT, MOVE)));
 		
 		final SolrRepository respository = mock(SolrRepository.class);

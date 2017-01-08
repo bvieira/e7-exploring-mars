@@ -7,22 +7,21 @@ import static br.com.e7.exploringmars.model.Direction.WEST;
 
 import br.com.e7.exploringmars.exception.InvalidCoordinateException;
 import br.com.e7.exploringmars.exception.InvalidDirectionException;
+import br.com.e7.exploringmars.service.MissionService.CoordinateValidation;
 
 public class Rover {
-	public static interface CoordinateValidation{ void validate(int x, int y) throws InvalidCoordinateException; }
+	
 	
 	private final RoverPosition initialPosition;
 	private final RoverPosition currentPosition;
-	private final CoordinateValidation validation;
 
-	public Rover(final int x, final int y, final Direction direction, final CoordinateValidation validation) {
-		this(new RoverPosition(x, y, getIndexDirection(direction)), new RoverPosition(x, y, getIndexDirection(direction)), validation);
+	public Rover(final int x, final int y, final Direction direction) {
+		this(new RoverPosition(x, y, getIndexDirection(direction)), new RoverPosition(x, y, getIndexDirection(direction)));
 	}
 	
-	public Rover(final RoverPosition initialPosition, final RoverPosition currentPosition, final CoordinateValidation validation) {
+	public Rover(final RoverPosition initialPosition, final RoverPosition currentPosition) {
 		this.initialPosition = initialPosition;
 		this.currentPosition = currentPosition;
-		this.validation = validation;
 	}
 	
 	public int initialX() {
@@ -49,7 +48,7 @@ public class Rover {
 		return directions[currentPosition.directionIndex];
 	}
 	
-	public Rover move() throws InvalidCoordinateException {
+	public Rover move(final CoordinateValidation validation) throws InvalidCoordinateException {
 		switch (direction()) {
 		case NORTH:
 			validation.validate(x(), y()+1);
@@ -87,10 +86,6 @@ public class Rover {
 			if(directions[i].equals(d))
 				return i;
 		throw new InvalidDirectionException("invalid direction");
-	}
-	
-	public static CoordinateValidation createSimpleCordinateValidation(final int w, final int h) {
-		return (x, y) -> {if(!(x >= 0 && x <= w && y >= 0 && y <= h)) throw new InvalidCoordinateException(String.format("cordinates: (%d, %d) are invalid", x, y));};
 	}
 	
 	public static class RoverPosition {

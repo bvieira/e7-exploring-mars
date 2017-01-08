@@ -8,10 +8,12 @@ public class Mission {
 	private final String name;
 	private final long created;
 	private final List<RoverMission> rovers;
-	private int surfaceWidth, surfaceHeight;
+	private final int surfaceWidth, surfaceHeight;
 	
-	public Mission(final String name) {
+	public Mission(final String name, final int surfaceWidth, final int surfaceHeight) {
 		this.name = name;
+		this.surfaceWidth = surfaceWidth;
+		this.surfaceHeight = surfaceHeight;
 		this.created = Instant.now().toEpochMilli();
 		this.rovers = new ArrayList<>();
 	}
@@ -36,16 +38,8 @@ public class Mission {
 		return surfaceHeight;
 	}
 	
-	public void setSurfaceHeight(final int surfaceHeight) {
-		this.surfaceHeight = surfaceHeight;
-	}
-	
 	public int surfaceWidth() {
 		return surfaceWidth;
-	}
-	
-	public void setSurfaceWidth(final int surfaceWidth) {
-		this.surfaceWidth = surfaceWidth;
 	}
 	
 	@Override

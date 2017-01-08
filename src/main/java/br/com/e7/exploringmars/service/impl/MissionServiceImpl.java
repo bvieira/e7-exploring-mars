@@ -26,7 +26,8 @@ public class MissionServiceImpl implements MissionService {
 
 	@Override
 	public MissionResult process(final Mission mission) {
-		final MissionResult result = new MissionResult(mission.rovers().stream().map(m -> processRoverMission(m)).collect(Collectors.toList()));
+		final CoordinateValidation v = MissionService.createSimpleCordinateValidation(mission.surfaceWidth(), mission.surfaceHeight());
+		final MissionResult result = new MissionResult(mission.rovers().stream().map(m -> processRoverMission(m, v)).collect(Collectors.toList()));
 		repository.add(mission);
 		return result;
 	}
@@ -36,7 +37,7 @@ public class MissionServiceImpl implements MissionService {
 		return repository.search(query, sort);
 	}
 	
-	private Rover processRoverMission(final RoverMission roverMission) {
+	private Rover processRoverMission(final RoverMission roverMission, final CoordinateValidation v) {
 		roverMission.actions().forEach(a -> {
 			switch (a) {
 			case LEFT:
@@ -46,10 +47,11 @@ public class MissionServiceImpl implements MissionService {
 				roverMission.rover().turnRight();
 				break;
 			case MOVE:
-				roverMission.rover().move();
+				roverMission.rover().move(v);
 				break;
 			}
 		});
+		v.addInvalidPosition(roverMission.rover().x(), roverMission.rover().y());
 		return roverMission.rover();
 	}
 }
