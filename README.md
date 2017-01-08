@@ -16,6 +16,7 @@ List of technologies that I chose to work:
 # Notes
 * 
 
+
 # Build
 ```sh
 $ docker run -it --rm -v "$PWD":/usr/src/project -w /usr/src/project maven mvn clean install
@@ -35,4 +36,83 @@ $ docker-compose stop
 ```sh
 $ docker-compose logs -f
 ```
+
+# API
+- [Process mission](#process-mission)
+
+## Process mission
+process a mission and calculates the final point for each rover
+
+### Request:
+`POST` /mission/:name
+
+
+| param   | description           |
+|-------------------|-----------------------|
+| `:name`             | `name` for mission  |
+
+#### Body:
+- [Mission Request Text](#mission-request-text)
+
+
+### Response:
+- [Mission Result Response Text](#mission-result-response-text)
+
+### Response Codes:
+| code   | description           |
+|-------------------|-----------------------|
+| 200             | success  |
+
+### Example:
+```sh
+$ curl -v -X POST -H "Content-Type: text/plain" localhost:8080/mission/abc -X POST -d $'5 5\n1 2 N\nLMLMLMLMM\n3 3 E\nMMRMMRMRRM'
+> POST /mission/abc HTTP/1.1
+> Host: localhost:8080
+> User-Agent: curl/7.43.0
+> Accept: */*
+> Content-Type: text/plain
+> Content-Length: 36
+>
+< HTTP/1.1 200 OK
+< Date: Sun, 08 Jan 2017 21:03:28 GMT
+< Content-Type: text/plain
+< Transfer-Encoding: chunked
+< Server: Jetty(9.4.0.v20161208)
+<
+1 3 N
+5 1 E
+
+```
+
+# Schema
+## Mission Request Text
+
+| header   | value           |
+|-------------------|-----------------------|
+| `Content-Type`             | plain/text  |
+
+	number number //surface size
+	number number direction //rover position, use N, E, S and W for directions
+	action action action... //rover actions, use L, R and M for actions
+	//repeat rovers info
+	
+eg.
+	5 5
+	1 2 N
+	LMLMLMLMM
+	3 3 E
+	MMRMMRMRRM
+
+## Mission Result Response Text
+
+| header   | value           |
+|-------------------|-----------------------|
+| `Content-Type`             | plain/text  |
+
+	number number direction //rover position
+	//repeat rover positon for each rover
+	
+eg.
+	1 3 N
+	5 1 E
 
