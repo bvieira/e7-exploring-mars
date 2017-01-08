@@ -1,0 +1,20 @@
+version: '2'
+services:
+  solr:
+    image: solr
+    volumes:
+      - ./solr/:/opt/solr/server/solr/missions/
+    hostname: solr
+    ports:
+      - "8983:8983/tcp"
+  
+  webapp:
+    image: jetty
+    volumes:
+      - ./target/exploring-mars-1.0.0.war:/var/lib/jetty/webapps/root.war
+    environment:
+      - EXP_MARS_SOLR_URL=http://solr:8983/solr/missions
+    links:
+      - solr:solr
+    ports:
+      - "8080:8080/tcp"

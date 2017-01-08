@@ -1,5 +1,7 @@
 package br.com.e7.exploringmars.util;
 
+import org.slf4j.LoggerFactory;
+
 import com.google.inject.AbstractModule;
 import com.google.inject.Binder;
 import com.google.inject.Module;
@@ -17,6 +19,10 @@ import br.com.e7.exploringmars.web.MissionTextBodyReader;
 import br.com.e7.exploringmars.web.WebApplicationExceptionMapper;
 
 public class GuiceModule implements Module {
+	
+	public GuiceModule() {
+		LoggerFactory.getLogger("init").info("starting guice");
+	}
 
 	@Override
 	public void configure(Binder binder) {

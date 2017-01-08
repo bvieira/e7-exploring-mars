@@ -13,6 +13,7 @@ public enum ConfigProperties {
 	}
 	
 	public String value() {
-		return System.getProperty(property, value);
+		final String result = System.getenv(property);
+		return result == null ? value : result;
 	}
 }

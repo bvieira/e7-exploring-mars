@@ -4,7 +4,7 @@
 	<packaging>war</packaging>
 	<groupId>br.com.e7</groupId>
 	<artifactId>exploring-mars</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 
 	<repositories>
 		<repository>
@@ -17,6 +17,12 @@
 			<id>mavenCentral2</id>
 			<name>mavenCentral2</name>
 			<url>http://central.maven.org/maven2</url>
+		</repository>
+		
+		<repository>
+			<id>mavenRepo</id>
+			<name>mavenRepo</name>
+			<url>http://repo.maven.apache.org/maven2</url>
 		</repository>
 	</repositories>
 
@@ -132,6 +138,24 @@
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<attachClasses>true</attachClasses>
+					<archive>
+						<manifest>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+						</manifest>
+						<manifestEntries>
+							<Implementation-Build>${buildNumber}</Implementation-Build>
+						</manifestEntries>
+					</archive>
 				</configuration>
 			</plugin>
 		</plugins>
