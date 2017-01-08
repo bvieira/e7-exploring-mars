@@ -40,6 +40,9 @@ $ docker-compose logs -f
 # API
 - [Process mission](#process-mission)
 
+## Error handling
+if something went wrong on request, the application should return http code different from 2xx and on body the [Error response](#error-response)
+
 ## Process mission
 process a mission and calculates the final point for each rover
 
@@ -62,6 +65,7 @@ process a mission and calculates the final point for each rover
 | code   | description           |
 |-------------------|-----------------------|
 | 200             | success  |
+| 400             | invalid request  |
 
 ### Example:
 ```sh
@@ -117,4 +121,20 @@ eg.
 
 	1 3 N
 	5 1 E
+
+## Error response
+
+| header   | value           |
+|-------------------|-----------------------|
+| `Content-Type`             | application/json  |
+
+	{
+		"message": string
+	}
+	
+eg.
+
+	{
+		"message":"RESTEASY003210: Could not find resource for full path: http://localhost:8080/invalid"
+	}
 
