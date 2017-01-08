@@ -85,6 +85,61 @@ $ curl -v -X POST -H "Content-Type: text/plain" localhost:8080/mission/abc -X PO
 
 ```
 
+## Search missions
+search missions according with query and sort options
+
+### Request:
+`GET` /mission?q=:query&sort=:sort
+
+
+| param   | required | description           |
+|-------------------|--|-----------------------|
+| `:query`            | yes |  `query` for searching, it uses q parameter from solr, more info for syntax on https://wiki.apache.org/solr/SolrQuerySyntax  |
+| `:sort`             | no |  `sort` for searching, format: "field:order". Use 'asc' or 'desc' for order and any field from [Mission Search Response](#mission-search-response)  |
+
+
+### Response:
+| code   | description           | body content |
+|-------------------|-----------------------|-------|
+| 200             | success  | [Mission Result Response Text](#mission-result-response-text) |
+| 400             | invalid request  | [Error response](#error-response) |
+| 500             | error accessing solr  | [Error response](#error-response) |
+
+### Example:
+```sh
+$ curl -v "localhost:8080/mission?q=name:hey"
+> GET /mission?q=name:hey HTTP/1.1
+> Host: localhost:8080
+> User-Agent: curl/7.43.0
+> Accept: */*
+>
+< HTTP/1.1 200 OK
+< Date: Sun, 08 Jan 2017 21:47:49 GMT
+< Content-Type: application/json
+< Content-Length: 154
+< Server: Jetty(9.4.0.v20161208)
+<
+[{"name":"hey","created":"Jan 7, 2017 1:52:43 AM","width":5,"height":5,"qty_rover":3,"start_points":["1,2","3,3","1,4"],"end_points":["1,3","5,1","3,4"]}]
+
+```
+
+```sh
+$ curl -v "http://localhost:8080/mission?q=created:%5B2017-01-07T23:59:59.999Z%20TO%20*%5D&sort=created:desc"
+> GET /mission?q=created:%5B2017-01-07T23:59:59.999Z%20TO%20*%5D&sort=created:desc HTTP/1.1
+> Host: localhost:8080
+> User-Agent: curl/7.43.0
+> Accept: */*
+>
+< HTTP/1.1 200 OK
+< Date: Sun, 08 Jan 2017 21:56:57 GMT
+< Content-Type: application/json
+< Content-Length: 271
+< Server: Jetty(9.4.0.v20161208)
+<
+[{"name":"def","created":"Jan 8, 2017 7:52:47 PM","width":4,"height":4,"qty_rover":1,"start_points":["1,1"],"end_points":["0,2"]},{"name":"abc","created":"Jan 8, 2017 7:03:28 PM","width":5,"height":5,"qty_rover":2,"start_points":["1,2","3,3"],"end_points":["1,3","5,1"]}]
+
+```
+
 # Schema
 ## Mission Request Text
 
@@ -118,6 +173,40 @@ eg.
 
 	1 3 N
 	5 1 E
+
+## Mission Search Response
+
+| header   | value           |
+|-------------------|-----------------------|
+| `Content-Type`             | application/json  |
+
+	[
+		{
+			"name": string,
+			"created": string,
+			"width": number,
+			"height": number,
+			"qty_rover": number,
+			"start_points": string[],
+			"end_points": string[]
+		}
+	
+	]
+	
+eg.
+
+	[
+		{
+			"name": "mission1",
+			"created": "Jan 7, 2017 1:52:43 AM",
+			"width": 5,
+			"height": 5,
+			"qty_rover": 3,
+			"start_points": ["1,2","3,3","1,4"],
+			"end_points": ["1,3","5,1","3,4"]
+		}
+	]
+
 
 ## Error response
 
