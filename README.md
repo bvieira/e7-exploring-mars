@@ -59,13 +59,10 @@ process a mission and calculates the final point for each rover
 
 
 ### Response:
-- [Mission Result Response Text](#mission-result-response-text)
-
-### Response Codes:
-| code   | description           |
+| code   | description           | body content |
 |-------------------|-----------------------|
-| 200             | success  |
-| 400             | invalid request  |
+| 200             | success  | [Mission Result Response Text](#mission-result-response-text) |
+| 400             | invalid request  | [Error response](#error-response) |
 
 ### Example:
 ```sh
