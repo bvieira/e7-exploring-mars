@@ -94,8 +94,8 @@ search missions according with query and sort options
 `GET` /mission?q=:query&sort=:sort
 
 
-| param   | required | description           |
-|-------------------|--|-----------------------|
+| param   |          required | description           |
+|-------------------|-------|-----------------------|
 | `:query`            | yes |  `query` for searching, it uses q parameter from solr, more info for syntax on https://wiki.apache.org/solr/SolrQuerySyntax  |
 | `:sort`             | no |  `sort` for searching, format: "field:order". Use 'asc' or 'desc' for order and any field from [Mission Search Response](#mission-search-response)  |
 
