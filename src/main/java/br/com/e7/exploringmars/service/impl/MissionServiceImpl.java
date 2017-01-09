@@ -38,7 +38,7 @@ public class MissionServiceImpl implements MissionService {
 	}
 	
 	private Rover processRoverMission(final RoverMission roverMission, final CoordinateValidation v) {
-		roverMission.actions().forEach(a -> {
+		roverMission.actions().stream().filter(a -> a != null).forEach(a -> {
 			switch (a) {
 			case LEFT:
 				roverMission.rover().turnLeft();
