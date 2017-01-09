@@ -12,6 +12,7 @@ services:
     image: jetty
     volumes:
       - ./target/exploring-mars-1.0.0.war:/var/lib/jetty/webapps/root.war
+      - ./config/logback.xml:/var/lib/jetty/resources/logback.xml
     environment:
       - EXP_MARS_SOLR_URL=http://solr:8983/solr/missions
     links:
