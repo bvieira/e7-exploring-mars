@@ -36,6 +36,7 @@ public class LogFilter implements Filter{
 			chain.doFilter(req, resp);
 		} catch(RuntimeException e) {
 			servletLog.error("error on filter chain", e);
+			throw e;
 		} finally {
 			final HttpServletRequest request = (HttpServletRequest) req;
 	        final HttpServletResponse response = (HttpServletResponse) resp;
