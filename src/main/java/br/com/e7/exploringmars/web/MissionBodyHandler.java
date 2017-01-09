@@ -1,11 +1,14 @@
 package br.com.e7.exploringmars.web;
 
+import static br.com.e7.exploringmars.util.ConfigProperties.DEFAULT_ENCODING;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
+import java.nio.charset.Charset;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -20,6 +23,10 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.Provider;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
+
 import br.com.e7.exploringmars.exception.InvalidCoordinateException;
 import br.com.e7.exploringmars.exception.ParserException;
 import br.com.e7.exploringmars.model.Action;
@@ -29,23 +36,31 @@ import br.com.e7.exploringmars.model.Mission.RoverMission;
 import br.com.e7.exploringmars.model.Rover;
 
 @Provider
-@Consumes(MediaType.TEXT_PLAIN)
-public class MissionTextBodyReader implements MessageBodyReader<Mission> {
+@Consumes({MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON})
+public class MissionBodyHandler  implements MessageBodyReader<Mission> {
+	private final Gson gson;
 	
 	@Context
     private UriInfo uriInfo;
 
-	@Override
+	public MissionBodyHandler() {
+		gson = new GsonBuilder().create();
+	}
+	
+
 	public boolean isReadable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
 		return type == Mission.class;
 	}
 
 	@Override
 	public Mission readFrom(Class<Mission> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, String> httpHeaders, InputStream entityStream) throws IOException, WebApplicationException {
-		return parseMission(uriInfo.getPathParameters().getFirst("name"), entityStream);
+		if(MediaType.APPLICATION_JSON_TYPE.equals(mediaType))
+			return parseMissionJson(uriInfo.getPathParameters().getFirst("name"), entityStream);
+		return parseMissionText(uriInfo.getPathParameters().getFirst("name"), entityStream);
 	}
 	
-	Mission parseMission(final String name, final InputStream entityStream) {
+	// -------- parse text
+	Mission parseMissionText(final String name, final InputStream entityStream) {
 		try(BufferedReader bufReader = new BufferedReader(new InputStreamReader(entityStream))) {
 			final int[] surfaceValues = parseSurfaceValues(bufReader.readLine());
 			final Mission mission = new Mission(name, surfaceValues[0], surfaceValues[1]);
@@ -106,6 +121,58 @@ public class MissionTextBodyReader implements MessageBodyReader<Mission> {
 		}
 		
 	}
-
 	
+	// -------- parse json
+	Mission parseMissionJson(final String name, final InputStream entityStream) {
+		try (final InputStreamReader streamReader = new InputStreamReader(entityStream, Charset.forName(DEFAULT_ENCODING.value()))) {
+			return toMission(name, gson.fromJson(streamReader, MissionInput.class));
+		} catch (JsonSyntaxException | IOException e) {
+			throw new ParserException(e.getMessage());
+		}
+	}
+	
+	private Mission toMission(final String name, final MissionInput input) {
+		if(input.surface == null || input.surface.width == null || input.surface.height == null)
+			throw new ParserException("missing surface width or height");
+		if(input.rovers == null || input.rovers.isEmpty())
+			throw new ParserException("rover missing on mission");
+		final Mission mission = new Mission(name, input.surface.width, input.surface.height);
+		final Set<String> occupiedCoordinates = new HashSet<>();
+		input.rovers.forEach(r -> {
+			final RoverMission roverMission = toRoverMission(r);
+			final String coordinate = toCoordinateString(roverMission.rover().x(), roverMission.rover().y());
+			if(occupiedCoordinates.contains(coordinate))
+				throw new InvalidCoordinateException(String.format("two rovers cannot occupy the same place, coordinate:(%s) in use", coordinate));
+			occupiedCoordinates.add(coordinate);
+			mission.addRoverMission(roverMission);
+		});
+		
+		return mission;
+	}
+	
+	private RoverMission toRoverMission(final RoverInput input) {
+		if(input.x == null || input.y == null || input.direction == null)
+			throw new ParserException("rover position is missing");
+		if(input.actions == null || input.actions.isEmpty())
+			throw new ParserException("rover actions is missing");
+		return new RoverMission(new Rover(input.x, input.y, input.direction), input.actions);
+	}
+	
+	private static class MissionInput {
+		private SurfaceInput surface;
+		private List<RoverInput> rovers;
+	}
+	
+	private static class RoverInput {
+		private Integer x;
+		private Integer y;
+		private Direction direction;
+		private List<Action> actions;
+	}
+	
+	private static class SurfaceInput {
+		private Integer width;
+		private Integer height;
+	}
+
 }

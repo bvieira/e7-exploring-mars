@@ -25,6 +25,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 
+import br.com.e7.exploringmars.exception.ParserException;
+
 @Provider
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -45,6 +47,8 @@ public class JsonMessageBodyHandler implements MessageBodyWriter<Object>, Messag
 	public Object readFrom(Class<Object> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, String> httpHeaders, InputStream entityStream) throws IOException, WebApplicationException {
 		try (final InputStreamReader streamReader = new InputStreamReader(entityStream, Charset.forName(DEFAULT_ENCODING.value()))) {
 			return gson.fromJson(streamReader, genericType == null ? type : genericType);
+		} catch (JsonSyntaxException e) {
+			throw new ParserException(e.getMessage());
 		}
 	}
 

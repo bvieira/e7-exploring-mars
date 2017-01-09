@@ -21,8 +21,8 @@ public class ExploringMissionREST {
 	
 	@POST
     @Path("/{name}")
-    @Consumes({ MediaType.TEXT_PLAIN })
-    @Produces({ MediaType.TEXT_PLAIN })
+    @Consumes({ MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON })
+    @Produces({ MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON })
     public Response postMission(final Mission mission) {		
         return Response.status(Response.Status.OK).entity(missionService.process(mission)).build();
     }

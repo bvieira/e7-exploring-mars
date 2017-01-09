@@ -14,8 +14,8 @@ import br.com.e7.exploringmars.service.impl.MissionServiceImpl;
 import br.com.e7.exploringmars.web.ApplicationExceptionMapper;
 import br.com.e7.exploringmars.web.ExploringMissionREST;
 import br.com.e7.exploringmars.web.JsonMessageBodyHandler;
-import br.com.e7.exploringmars.web.MissionResultTextBodyWriter;
-import br.com.e7.exploringmars.web.MissionTextBodyReader;
+import br.com.e7.exploringmars.web.MissionBodyHandler;
+import br.com.e7.exploringmars.web.MissionResultBodyHandler;
 import br.com.e7.exploringmars.web.WebApplicationExceptionMapper;
 
 public class GuiceModule implements Module {
@@ -28,8 +28,8 @@ public class GuiceModule implements Module {
 	public void configure(Binder binder) {
 		binder.install(new DependencyInjector());
 		
-		binder.bind(MissionTextBodyReader.class);
-		binder.bind(MissionResultTextBodyWriter.class);
+		binder.bind(MissionBodyHandler.class);
+		binder.bind(MissionResultBodyHandler.class);
 		binder.bind(JsonMessageBodyHandler.class);
 		binder.bind(ApplicationExceptionMapper.class);
 		binder.bind(WebApplicationExceptionMapper.class);
@@ -43,7 +43,6 @@ public class GuiceModule implements Module {
 		protected void configure() {
 			bind(SolrRepository.class);
 			bind(MissionRepository.class).to(SolrMissionRepository.class);
-			
 			bind(MissionService.class).to(MissionServiceImpl.class);
 		}
 		
