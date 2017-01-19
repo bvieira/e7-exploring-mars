@@ -14,6 +14,7 @@ import java.util.Arrays;
 import org.junit.Test;
 
 import br.com.e7.exploringmars.exception.InvalidCoordinateException;
+import br.com.e7.exploringmars.exception.ParserException;
 import br.com.e7.exploringmars.model.Direction;
 import br.com.e7.exploringmars.model.Mission;
 import br.com.e7.exploringmars.model.Mission.RoverMission;
@@ -49,6 +50,15 @@ public class MissionBodyHandlerTest {
 			new MissionBodyHandler().parseMissionJson("test", new ByteArrayInputStream(input.getBytes(Charset.forName(DEFAULT_ENCODING.value())))); 
 		}).isInstanceOf(InvalidCoordinateException.class).hasMessage("two rovers cannot occupy the same place, coordinate:(1,2) in use");
 	}
+	
+	@Test
+	public void testInputJsonParserError() {
+		final String input = "{\"surface\":{\"width\":5,\"height\":5},\"rovers\":[{\"x\":1,\"y\":2,\"direction\":\"NORTH\",\"actions\":[\"LEFT\",\"MOVE\",\"LEFT\",\"MOVE\",\"LEFT\",\"MOVE\",\"LEFT\",\"MOVE\",\"MOVE\"]},{\"x\":1,\"y\":2,\"direction\":\"EAST\",\"actions\":[\"LEFT\",\"MOVE\",\"LEFT\",\"MOVE\",\"LEFT\",\"MOVE\",\"LEFT\",\"MOVE\",\"MOVE\"]}]";
+		
+		assertThatThrownBy(() -> {  
+			new MissionBodyHandler().parseMissionJson("test", new ByteArrayInputStream(input.getBytes(Charset.forName(DEFAULT_ENCODING.value())))); 
+		}).isInstanceOf(ParserException.class);
+	}
 
 	
 	@Test
@@ -79,5 +89,15 @@ public class MissionBodyHandlerTest {
 			new MissionBodyHandler().parseMissionText("test", new ByteArrayInputStream(input.getBytes(Charset.forName(DEFAULT_ENCODING.value())))); 
 		}).isInstanceOf(InvalidCoordinateException.class).hasMessage("two rovers cannot occupy the same place, coordinate:(1,2) in use");
 	}
+	
+	@Test
+	public void testInputTextParserError() {
+		final String input = "5 5\n1 2 ";
+		
+		assertThatThrownBy(() -> {  
+			new MissionBodyHandler().parseMissionText("test", new ByteArrayInputStream(input.getBytes(Charset.forName(DEFAULT_ENCODING.value())))); 
+		}).isInstanceOf(ParserException.class).hasMessageContaining("invalid format");
+	}
+
 
 }
