@@ -27,8 +27,8 @@ public class SolrMissionRepository implements MissionRepository {
 		solr.add(new MissionRepositoryInfo(mission.name(), mission.name(), new Date(mission.created()), 
 				mission.surfaceWidth(), mission.surfaceHeight(), 
 				mission.rovers().size(),
-				mission.rovers().stream().map(r -> r.rover().initialX() + "," + r.rover().initialY()).collect(Collectors.toList()),
-				mission.rovers().stream().map(r -> r.rover().x() + "," + r.rover().y()).collect(Collectors.toList())
+				mission.rovers().stream().map(r -> new StringBuilder().append(r.rover().initialX()).append(",").append(r.rover().initialY()).toString()).collect(Collectors.toList()),
+				mission.rovers().stream().map(r -> new StringBuilder().append(r.rover().x()).append(",").append(r.rover().y()).toString()).collect(Collectors.toList())
 		));
 	}
 	

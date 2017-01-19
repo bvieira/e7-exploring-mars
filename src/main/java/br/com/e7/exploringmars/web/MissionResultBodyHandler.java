@@ -68,7 +68,7 @@ public class MissionResultBodyHandler implements MessageBodyWriter<MissionResult
 	}
 	
 	byte[] toMissionOutputText(final MissionResult result) {
-		return result.rovers().stream().map(r -> r.x() + " " + r.y() + " " + r.direction().value()).collect(Collectors.joining("\n")).getBytes(Charset.forName(DEFAULT_ENCODING.value()));
+		return result.rovers().stream().map(r -> new StringBuilder().append(r.x()).append(" ").append(r.y()).append(" ").append(r.direction().value()).toString()).collect(Collectors.joining("\n")).getBytes(Charset.forName(DEFAULT_ENCODING.value()));
 	}
 	
 	// ------- parse json

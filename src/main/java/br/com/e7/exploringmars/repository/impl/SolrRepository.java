@@ -35,7 +35,7 @@ public class SolrRepository {
 			client.addBean(document);
 			client.commit();
 		} catch (SolrServerException | RemoteSolrException | IOException e) {
-			throw new RepositoryIndexingException("error adding document on solr, cause: " + e.getMessage(), e);
+			throw new RepositoryIndexingException(new StringBuilder("error adding document on solr, cause: ").append(e.getMessage()).toString(), e);
 		}
 	}
 	
@@ -48,14 +48,14 @@ public class SolrRepository {
 			}
 			return client.query(query);
 		} catch (SolrServerException | RemoteSolrException | IOException e) {
-			throw new RepositorySearchingException("error searching document on solr, cause: " + e.getMessage(), e);
+			throw new RepositorySearchingException(new StringBuilder("error searching document on solr, cause: ").append(e.getMessage()).toString(), e);
 		}
 	}
 	
 	private String[] getSortParams(final String content) {
 		final String[] params = content.split(":");
 		if(params.length != 2)
-			throw new ParserException("sort param is invalid, value: " + content);
+			throw new ParserException(new StringBuilder("sort param is invalid, value: ").append(content).toString());
 		return params;
 	}
 }

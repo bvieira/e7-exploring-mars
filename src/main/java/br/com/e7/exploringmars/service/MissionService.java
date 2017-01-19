@@ -41,7 +41,7 @@ public interface MissionService {
 		}
 		
 		private String toCoordinateString(int x, int y) {
-			return x + "," + y;
+			return new StringBuilder().append(x).append(",").append(y).toString();
 		}
 	}
 	

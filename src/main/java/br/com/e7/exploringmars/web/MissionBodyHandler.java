@@ -81,7 +81,7 @@ public class MissionBodyHandler  implements MessageBodyReader<Mission> {
 	}
 	
 	private String toCoordinateString(int x, int y) {
-		return x + "," + y;
+		return new StringBuilder().append(x).append(",").append(y).toString();
 	}
 	
 	private int[] parseSurfaceValues(final String line) {

@@ -24,7 +24,7 @@ public class ApplicationExceptionMapper implements ExceptionMapper<ApplicationEx
 	public Response toResponse(ApplicationException exception) {
 		switch (exception.getType()) {
 		case VALIDATION:
-			return response(Response.Status.BAD_REQUEST, exception.getClass().getSimpleName() + " - " + exception.getMessage());
+			return response(Response.Status.BAD_REQUEST, new StringBuilder(exception.getClass().getSimpleName()).append(" - ").append(exception.getMessage()).toString());
 		case REPOSITORY_INDEX:
 		case REPOSITORY_SEARCH:
 			logger.error("application error, exception:[{}] message:[{}]", exception.getClass().getName(), exception.getMessage());
